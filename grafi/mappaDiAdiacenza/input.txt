@@ -1,0 +1,15 @@
+8
+Carlo 14 Stampa 3D,Recitazione,Radioamatore,Twirling 
+Luca 32 Maglieria,Kombucha,Merletto,Lapidario
+Anna 45 Ceramica,Puzzle,Quilling,Quilting,Lettura
+Gianni 56 Scolpire,Cucire,Cantare,Abbozzare 
+Andrea 21 Chiacchierino,Tassidermia,Videogiochi
+Marta 45 Scrittura,Yo-yo,Yoga
+Elena 67 Canyoning,rabdomanzia,Guida,Pesca
+Riccardo 89 Jogging,kayak,Aquilone,kitesurf
+Carlo Luca Anna
+Luca Anna Andrea
+Gianni Marta Riccardo
+Marta Elena Carlo Luca
+Elena Riccardo
+Riccardo Elena Luca

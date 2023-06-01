@@ -22,7 +22,6 @@ func max(a, b int) int {
 }
 
 func zaino(arr []int, oggetti map[int]int) int {
-	fmt.Println(arr)
 	for i := 1; i < len(arr); i++ {
 		for peso, valore := range oggetti {
 			if peso <= i {
@@ -30,6 +29,5 @@ func zaino(arr []int, oggetti map[int]int) int {
 			}
 		}
 	}
-	fmt.Println(arr)
 	return arr[len(arr)-1]
 }

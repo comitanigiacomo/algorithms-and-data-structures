@@ -1,75 +1,58 @@
+/*
+Sono nella situazione in cui ho uno "zaino" dove posso inserire degli oggetti di diversi tipi, e ho a disposizione un quantità illimitata di  oggetti.
+
+posso quindi risolvere il problema utilizzando l'approccio del knapsack problem semplificato
+
+Rappresento lo zaino come un array dove in ogni posizione è presente il numero di swindles massimo ottenibile in base al numero massimo di jet points supportato
+*/
+
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
-	"strconv"
-	"strings"
 )
 
+type oggetto struct {
+	jetPoints, valore int
+}
+
+func calcolaValoreMassimo(jetPoints int, tabella map[int]int) int {
+	arr := make([]int, jetPoints+1)
+
+	for i := 1; i <= jetPoints; i++ {
+		for valore, jetPointsReq := range tabella {
+			if jetPointsReq <= i {
+				arr[i] = max(arr[i], valore+arr[i-jetPointsReq])
+			}
+		}
+	}
+
+	return arr[jetPoints]
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
+}
+
 func main() {
-	stampaMatrice(creaMatrx(leggi()))
-}
+	tabella := map[int]int{
+		100: 20000,
+		107: 22000,
+		124: 24000,
+		133: 26000,
+		139: 28000,
+		155: 30000,
+		172: 32000,
+		178: 34000,
+		184: 36000,
+		190: 38000,
+		195: 40000,
+	}
 
-// crea una mappa contenente per ogni jet
-func leggi() (map[int]int, int, []int) {
-	var s []int
-	mappa := make(map[int]int)
-	scanner := bufio.NewScanner(os.Stdin)
-	var peso int
-	for scanner.Scan() {
-		args := strings.Split(scanner.Text(), " ")
-		if len(args) == 1 {
-			peso, _ = strconv.Atoi(args[0])
-		} else {
-			num1, _ := strconv.Atoi(args[0])
-			num2, _ := strconv.Atoi(args[1])
-			s = append(s, num1)
-			mappa[num1] = num2
-		}
-	}
-	return mappa, peso, s
-}
-
-// utilizzando la tecnica della programmazione dinamica costruisce una matrice contenente per ogni riga la soluzione ottima usando un certo quantitativo di oggetti
-func creaMatrx(pesi map[int]int, peso int, riga []int) [][]int {
-	intervallo := pesi[riga[1]] - pesi[riga[0]]
-	var colonna []int
-	trovaColonna := make(map[int]int)
-	var count int
-	for i := pesi[riga[0]]; i <= peso; i += intervallo {
-		colonna = append(colonna, i)
-		trovaColonna[i] = count
-		count++
-	}
-	matrx := make([][]int, len(riga))
-	for i := 0; i < len(riga); i++ {
-		matrx[i] = make([]int, len(colonna))
-	}
-	for i := 0; i < len(riga); i++ {
-		for j := 0; j < len(colonna); j++ {
-			if colonna[j]-pesi[riga[i]] >= 0 {
-				matrx[i][j] += riga[i]
-			}
-			if colonna[j]-pesi[riga[i]] >= pesi[riga[0]] {
-				if i > 0 {
-					matrx[i][j] += matrx[i-1][trovaColonna[colonna[j]-pesi[riga[i]]]]
-				}
-			}
-			if i > 0 {
-				if matrx[i][j] <= matrx[i-1][j] {
-					matrx[i][j] = matrx[i-1][j]
-				}
-			}
-		}
-	}
-	return matrx
-}
-
-// stampa una matrice
-func stampaMatrice(matrx [][]int) {
-	for i := 0; i < len(matrx); i++ {
-		fmt.Println(matrx[i])
-	}
+	jetPoints := 140000
+	valoreMassimo := calcolaValoreMassimo(jetPoints, tabella)
+	fmt.Println("Valore massimo in swindle:", valoreMassimo)
 }
